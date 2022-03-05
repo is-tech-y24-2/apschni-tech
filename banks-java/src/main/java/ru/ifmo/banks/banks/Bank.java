@@ -91,7 +91,7 @@ public class Bank {
     public void notifySubscribers(AccountType accountType, String message) {
         accounts.stream()
                 .filter(Account::getClientSubscribed)
-                .filter(account -> (Account.GetAccountType(account).equals(accountType)) || accountType.equals(AccountType.Any))
+                .filter(account -> (Account.getAccountType(account).equals(accountType)) || accountType.equals(AccountType.Any))
                 .map(Account::getClient)
                 .forEach(client -> client.getUpdate(message));
     }

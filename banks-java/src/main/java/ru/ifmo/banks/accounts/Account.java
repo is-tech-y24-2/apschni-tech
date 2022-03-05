@@ -15,12 +15,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Account{
-
-    public Account(Client client, Integer unverifiedLimit) {
-        this.client = client;
-        this.unverifiedLimit = unverifiedLimit;
-    }
+public abstract class Account {
 
     protected Boolean clientSubscribed = false;
     protected Client client;
@@ -31,23 +26,25 @@ public abstract class Account{
     protected Integer unverifiedLimit = 0;
     protected List<Transaction> transactions = new ArrayList<>();
 
+    public Account(Client client, Integer unverifiedLimit) {
+        this.client = client;
+        this.unverifiedLimit = unverifiedLimit;
+    }
+
     public abstract void transfer(Double transactionSum, Account destinationAccount, Instant dateTime) throws BankException;
 
     public abstract void withdrawal(Double transactionSum, Instant dateTime) throws BankException;
 
     public abstract void refill(Double transactionSum, Instant dateTime) throws BankException;
 
-    public static AccountType GetAccountType(Account account) {
-        if (account.getClass().equals(CreditAccount.class)){
+    public static AccountType getAccountType(Account account) {
+        if (account.getClass().equals(CreditAccount.class)) {
             return AccountType.Credit;
-        }
-        else if (account.getClass().equals(DepositAccount.class)) {
+        } else if (account.getClass().equals(DepositAccount.class)) {
             return AccountType.Deposit;
-        }
-        else if (account.getClass().equals(DebitAccount.class)){
+        } else if (account.getClass().equals(DebitAccount.class)) {
             return AccountType.Debit;
-        }
-        else return AccountType.Any;
+        } else return AccountType.Any;
     }
 
     public void undoTransaction(UUID transactionId) throws BankException {
