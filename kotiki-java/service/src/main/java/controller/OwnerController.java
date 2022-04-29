@@ -4,6 +4,7 @@ import dto.OwnerDtoRequest;
 import dto.OwnerDtoResponse;
 import lombok.RequiredArgsConstructor;
 import model.Owner;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import service.OwnerService;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class OwnerController {
 
     private final OwnerService ownerService;
@@ -37,7 +39,7 @@ public class OwnerController {
 
     @PostMapping("owner/")
     public Owner add(@RequestBody OwnerDtoRequest owner) {
-        return ownerService.addOwner(owner.getName(), owner.getBirthdate());
+        return ownerService.addOwner(owner.getName(), owner.getBirthdate(), owner.getUsername(), owner.getPassword());
     }
 
     @PatchMapping("owner/")

@@ -10,4 +10,6 @@ import java.time.LocalDate;
 public class OwnerDtoRequest {
     private String name;
     private LocalDate birthdate;
+    private String username;
+    private String password;
 }

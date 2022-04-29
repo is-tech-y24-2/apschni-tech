@@ -2,6 +2,8 @@ package service;
 
 import lombok.RequiredArgsConstructor;
 import model.Owner;
+import model.Role;
+import model.User;
 import org.springframework.stereotype.Service;
 import repository.OwnerRepository;
 
@@ -25,8 +27,10 @@ public class OwnerService {
         ownerRepository.deleteById(ownerId);
     }
 
-    public Owner addOwner(String name, LocalDate birthdate){
+    public Owner addOwner(String name, LocalDate birthdate, String username, String password){
         Owner owner = new Owner(name, birthdate);
+        User user = new User(username, password, Role.USER, owner);
+        owner.setUser(user);
         ownerRepository.save(owner);
         return owner;
     }
