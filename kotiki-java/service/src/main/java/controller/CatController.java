@@ -4,6 +4,7 @@ import dto.CatDtoRequest;
 import dto.CatDtoResponse;
 import lombok.RequiredArgsConstructor;
 import model.Cat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import service.CatService;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 public class CatController {
 
     private final CatService catService;

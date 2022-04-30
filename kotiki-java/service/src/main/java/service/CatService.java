@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import model.Cat;
 import model.Color;
 import model.Owner;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import repository.CatRepository;
 import repository.OwnerRepository;
@@ -23,7 +25,19 @@ public class CatService {
     }
 
     public Cat getCatById(UUID id) {
-        return catRepository.findById(id).orElse(null);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        Cat cat = catRepository.findById(id).orElse(null);
+        if (cat == null){
+            return null;
+        }
+
+        if (!cat.getOwner().getUser().getUsername().equals(currentPrincipalName)){
+            return null;
+        }
+
+        return cat;
     }
 
     public void deleteCatById(UUID catId) {
